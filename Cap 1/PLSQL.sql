@@ -1,18 +1,37 @@
 SET SERVEROUTPUT ON;
 DECLARE
-    v_accompaniment CONSTANT VARCHAR(50) := 'Batata frita';
-    v_portion CHAR(1) := 'P';
-    v_base_price NUMBER(6, 2) := 15.00;
-BEGIN
-    IF v_portion = 'M' THEN
-        v_base_price := v_base_price + 3.00;
-    ELSIF v_portion = 'G' THEN
-        v_base_price := v_base_price + 5.00;
-    ELSE
-        v_base_price := v_base_price;
+    v_bread_type VARCHAR(20) := 'Brioche';
+    v_amount_of_meat NUMBER(1) := 2;
+    v_extra_cheese BOOLEAN := TRUE;
+    v_extra_bacon BOOLEAN := TRUE;
+    v_price NUMBER(5, 2) := 20.00;
+BEGIN   
+    IF v_amount_of_meat > 1 THEN
+        v_price := v_price + ((v_amount_of_meat * 6.00) - 6.00);
     END IF;
     
-    DBMS_OUTPUT.PUT_LINE(v_accompaniment);
-    DBMS_OUTPUT.PUT_LINE(v_portion);
-    DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_base_price, 'FM999D00'));
+    IF v_extra_cheese THEN
+        v_price := v_price + 3.50;
+    END IF;
+    
+    IF v_extra_bacon THEN
+        v_price := v_price + 4.50;
+    END IF;
+    
+    IF v_extra_cheese AND v_extra_bacon THEN
+        v_price := v_price - 1.00;
+    END IF;
+    
+    DBMS_OUTPUT.PUT_LINE('Tipo de pão: ' || v_bread_type);
+    DBMS_OUTPUT.PUT_LINE('Quantidade de carnes: ' || v_amount_of_meat);
+    
+    IF v_extra_cheese THEN
+        DBMS_OUTPUT.PUT_LINE('Adicionou queijo extra.');
+    END IF;
+    
+    IF v_extra_bacon THEN
+        DBMS_OUTPUT.PUT_LINE('Adicionou bacon extra.');
+    END IF;
+    
+    DBMS_OUTPUT.PUT_LINE('Preço final: ' || TO_CHAR(v_price, 'FM999D00'));
 END;
