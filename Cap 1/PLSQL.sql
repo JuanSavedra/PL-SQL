@@ -1,20 +1,18 @@
-SET SERVEROUTPUT ON
+SET SERVEROUTPUT ON;
 DECLARE
-    v_client_name VARCHAR(40) := 'Juan Savedra dos Santos';
-    v_burger_price CONSTANT NUMBER(4, 2) := 25.50;
-    v_requested_burgers NUMBER(3) := 4;
-    v_total_price NUMBER(7, 2) := 0.00;
-    v_discount NUMBER(7, 2) := 0.00;
+    v_accompaniment CONSTANT VARCHAR(50) := 'Batata frita';
+    v_portion CHAR(1) := 'P';
+    v_base_price NUMBER(6, 2) := 15.00;
 BEGIN
-    v_total_price := v_requested_burgers * v_burger_price;
-
-    IF v_requested_burgers > 3 THEN 
-        -- 10% de desconto
-        v_discount := (10 / 100) * v_total_price;
-        v_total_price := v_total_price - v_discount;
+    IF v_portion = 'M' THEN
+        v_base_price := v_base_price + 3.00;
+    ELSIF v_portion = 'G' THEN
+        v_base_price := v_base_price + 5.00;
+    ELSE
+        v_base_price := v_base_price;
     END IF;
-
-    DBMS_OUTPUT.PUT_LINE(v_client_name);
-    DBMS_OUTPUT.PUT_LINE(v_requested_burgers);
-    DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_total_price));
+    
+    DBMS_OUTPUT.PUT_LINE(v_accompaniment);
+    DBMS_OUTPUT.PUT_LINE(v_portion);
+    DBMS_OUTPUT.PUT_LINE(TO_CHAR(v_base_price, 'FM999D00'));
 END;
